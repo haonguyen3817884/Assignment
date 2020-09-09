@@ -93,6 +93,9 @@ public class Lead {
 
     public void fillList() throws Exception {
 
+        String leadTitle = "stringCode,name,birthdate,gender,phone,email,address";
+
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.birthdate);
 
@@ -126,6 +129,8 @@ public class Lead {
         catch (FileNotFoundException fileNotfoundException){
             try{
                 FileWriter fileWriter = new FileWriter("lead.csv");
+                fileWriter.write(leadTitle);
+                fileWriter.write('\n');
                 fileWriter.write(this.codeString);
                 fileWriter.write(',');
                 fileWriter.write(this.name);

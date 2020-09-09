@@ -70,6 +70,8 @@ public class Interaction {
 
     public void fillList() throws Exception {
 
+        String interactionTitle = "codeString,date,stringCodeofLead,mean,status";
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.date);
 
@@ -102,6 +104,8 @@ public class Interaction {
         catch (FileNotFoundException fileNotfoundException){
             try {
                 FileWriter fileWriter = new FileWriter("interaction.csv");
+                fileWriter.write(interactionTitle);
+                fileWriter.write('\n');
                 fileWriter.write(this.stringCode);
                 fileWriter.write(',');
                 fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));

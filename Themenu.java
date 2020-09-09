@@ -31,7 +31,7 @@ public class Themenu {
                     numberOflines += 1;
                 }
 
-                if (numberOflines >0){
+                if (numberOflines >1){
                     isLeadinformationAdded = true;
                 }
 
@@ -43,6 +43,7 @@ public class Themenu {
             }
 
             Scanner functionInput1 = new Scanner(System.in);
+            System.out.print('\n');
             System.out.print("Welcome to CRM");
             System.out.print('\n');
             System.out.print("What would you like to do?");
@@ -63,7 +64,8 @@ public class Themenu {
 
                 while (true){
 
-
+                    String leadTitle = "stringCode,name,birthdate,gender,phone,email,address";
+                    String interactionTitle = "codeString,date,stringCodeofLead,mean,status";
                     int lengthOfarray = 0;
                     boolean isThereaList = false;
                     try{
@@ -72,35 +74,41 @@ public class Themenu {
                             String eachLine = fileReading.nextLine();
                             lengthOfarray = lengthOfarray + 1;
                         }
-                        if(lengthOfarray>0){
+                        if(lengthOfarray>1){
                             isThereaList = true;
                         }
                         fileReading.close();
 
                     }
                     catch (FileNotFoundException fileNotfoundException){
-
+                        lengthOfarray = lengthOfarray + 1;
                     }
-                    Lead[] listOfleads = new Lead[lengthOfarray];
+                    Lead[] listOfleads = new Lead[lengthOfarray - 1];
                     int index = 0;
 
                     try{
                         Scanner fileReading = new Scanner(new File("lead.csv"));
                         while (fileReading.hasNext()){
                             String eachLine = fileReading.nextLine();
-                            String[] theArray = eachLine.split(",");
-                            SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy-MM-dd");
-                            Date date = simpleDateformat.parse(theArray[2]);
-                            if (theArray[3].equals("true")){
-                                Lead lead = new Lead(theArray[0],theArray[1],date,true,theArray[4],theArray[5],theArray[6]);
-                                listOfleads[index] = lead;
+                            if(eachLine.equals(leadTitle)){
+
                             }
                             else {
-                                Lead lead = new Lead(theArray[0],theArray[1],date,false,theArray[4],theArray[5],theArray[6]);
-                                listOfleads[index] = lead;
+                                String[] theArray = eachLine.split(",");
+                                SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date = simpleDateformat.parse(theArray[2]);
+                                if (theArray[3].equals("true")){
+                                    Lead lead = new Lead(theArray[0],theArray[1],date,true,theArray[4],theArray[5],theArray[6]);
+                                    listOfleads[index] = lead;
+                                }
+                                else {
+                                    Lead lead = new Lead(theArray[0],theArray[1],date,false,theArray[4],theArray[5],theArray[6]);
+                                    listOfleads[index] = lead;
+                                }
+
+                                index += 1;
                             }
 
-                            index += 1;
                         }
                         fileReading.close();
 
@@ -118,33 +126,39 @@ public class Themenu {
                             String eachLine = fileReading.nextLine();
                             lengthOfarray1 = lengthOfarray1 + 1;
                         }
-                        if(lengthOfarray1>0){
+                        if(lengthOfarray1>1){
                             isThereaList1 = true;
                         }
                         fileReading.close();
 
                     }
                     catch (FileNotFoundException fileNotfoundException){
-
+                        lengthOfarray1 = lengthOfarray1 + 1;
                     }
-                    Interaction[] listOfinteraction = new Interaction[lengthOfarray1];
+                    Interaction[] listOfinteraction = new Interaction[lengthOfarray1 - 1];
                     int index2 = 0;
 
                     try{
                         Scanner fileReading = new Scanner(new File("interaction.csv"));
                         while (fileReading.hasNext()){
                             String eachLine = fileReading.nextLine();
-                            String[] theArray = eachLine.split(",");
-                            SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy-MM-dd");
-                            Date date = simpleDateformat.parse(theArray[1]);
-                            for (Lead lead: listOfleads){
-                                if (lead.getCodeString().equals(theArray[2])){
-                                    Interaction interaction = new Interaction(theArray[0],date,lead,theArray[3],theArray[4]);
-                                    listOfinteraction[index2] = interaction;
+                            if(eachLine.equals(interactionTitle)){
+
+                            }
+                            else{
+                                String[] theArray = eachLine.split(",");
+                                SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date = simpleDateformat.parse(theArray[1]);
+                                for (Lead lead: listOfleads){
+                                    if (lead.getCodeString().equals(theArray[2])){
+                                        Interaction interaction = new Interaction(theArray[0],date,lead,theArray[3],theArray[4]);
+                                        listOfinteraction[index2] = interaction;
+                                    }
                                 }
+
+                                index2 += 1;
                             }
 
-                            index2 += 1;
                         }
                         fileReading.close();
                     }catch (Exception exception){
@@ -173,6 +187,7 @@ public class Themenu {
 
 
                     Scanner functionInput = new Scanner(System.in);
+                    System.out.print('\n');
                     System.out.print("Welcome to CRM");
                     System.out.print('\n');
                     System.out.print("What would you like to do?");
@@ -226,7 +241,12 @@ public class Themenu {
                                     Scanner fileReading = new Scanner(new File("lead.csv"));
                                     while (fileReading.hasNext()){
                                         String eachLine = fileReading.nextLine();
-                                        codeInteger = Integer.parseInt(eachLine.split(",")[0].split("_")[1]);
+                                        if(leadTitle.equals(eachLine)){
+
+                                        }
+                                        else{
+                                            codeInteger = Integer.parseInt(eachLine.split(",")[0].split("_")[1]);
+                                        }
                                     }
 
                                     fileReading.close();
@@ -243,6 +263,8 @@ public class Themenu {
                                 codeString = codeString + codeInteger;
 
 
+                                System.out.print('\n');
+                                System.out.print('\n');
                                 System.out.print("codeString is" + " " + codeString);
 
 
@@ -257,7 +279,7 @@ public class Themenu {
 
                                 for (char eachCharacter: leadName.toLowerCase().trim().toCharArray()){
                                     if ( (eachCharacter<97 && eachCharacter!=' ') ||( eachCharacter>97+26 && eachCharacter != ' ' )){
-                                        throw new IllegalArgumentException();
+                                        throw new IllegalArgumentException("name input is invalid");
                                     }
                                 }
 
@@ -267,15 +289,15 @@ public class Themenu {
                                 SimpleDateFormat getFormat = new SimpleDateFormat("yyyy-MM-dd");
                                 Date date = getFormat.parse(leadBirthdate);
                                 if(Integer.parseInt(leadBirthdate.split("-")[2]) >31){
-                                    throw new IllegalArgumentException();
+                                    throw new IllegalArgumentException("day input is invalid");
                                 }
                                 else {
                                     if (Integer.parseInt(leadBirthdate.split("-")[1]) > 12){
-                                        throw new IllegalArgumentException();
+                                        throw new IllegalArgumentException("month input is invalid");
                                     }
                                     else {
                                         if(date.compareTo(new Date()) >0){
-                                            throw new IllegalArgumentException();
+                                            throw new IllegalArgumentException("birthdate input is in valid");
                                         }
                                     }
                                 }
@@ -291,7 +313,7 @@ public class Themenu {
 
 
 
-                                    throw new IllegalArgumentException();
+                                    throw new IllegalArgumentException("phone input is invalid");
                                 }
 
 
@@ -304,7 +326,7 @@ public class Themenu {
                                 if (!emailMatcher.matches()){
 
 
-                                    throw new IllegalArgumentException();
+                                    throw new IllegalArgumentException("email input is invalid");
                                 }
 
 
@@ -314,7 +336,7 @@ public class Themenu {
                                 Matcher addressMatcher = patternOfAddress.matcher(leadAddress);
                                 if (!addressMatcher.matches()){
 
-                                    throw new IllegalArgumentException();
+                                    throw new IllegalArgumentException("address input is invalid");
                                 }
 
 
@@ -358,6 +380,7 @@ public class Themenu {
 
                             }
                             catch (Exception exception){
+                                System.out.print(exception.getMessage());
                                 continue;
                             }
                             System.out.print("Successful");
@@ -380,6 +403,7 @@ public class Themenu {
                                 }
                                 if (isCodestringAdded){
                                     try {
+                                        boolean isThefirstLine = false;
                                         FileWriter fileWriter = new FileWriter("lead.csv");
                                         for (Lead lead: listOfleads){
                                             Calendar calendar = Calendar.getInstance();
@@ -388,6 +412,11 @@ public class Themenu {
 
                                             }
                                             else {
+                                                if (!isThefirstLine){
+                                                    fileWriter.write(leadTitle);
+                                                    fileWriter.write('\n');
+                                                    isThefirstLine = true;
+                                                }
                                                 fileWriter.write(lead.getCodeString());
                                                 fileWriter.write(',');
                                                 fileWriter.write(lead.getName());
@@ -415,6 +444,7 @@ public class Themenu {
 
                                     if(isThereaList1){
                                         try {
+                                            boolean isThefirstLine = false;
                                             FileWriter fileWriter = new FileWriter("interaction.csv");
                                             for (Interaction interaction: listOfinteraction){
                                                 Calendar calendar = Calendar.getInstance();
@@ -423,6 +453,11 @@ public class Themenu {
 
                                                 }
                                                 else {
+                                                    if(!isThefirstLine){
+                                                        fileWriter.write(interactionTitle);
+                                                        fileWriter.write('\n');
+                                                        isThefirstLine = true;
+                                                    }
                                                     fileWriter.write(interaction.getStringCode());
                                                     fileWriter.write(',');
                                                     fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
@@ -452,6 +487,10 @@ public class Themenu {
                                 System.out.print("codeString is not in the file or has not added");
 
                             }
+                        }
+                        else{
+                            System.out.print("the list needs to be filled");
+                            continue;
                         }
                     }
                     else if (readingInputsanitized.equals("update")){
@@ -498,11 +537,12 @@ public class Themenu {
 
                                                     }
                                                     else {
-                                                        throw new IllegalArgumentException();
+                                                        throw new IllegalArgumentException("name input is invalid");
                                                     }
 
                                                 }
                                                 catch (IllegalArgumentException illegalArgumentexception){
+                                                    System.out.print(illegalArgumentexception.getMessage());
                                                     continue;
                                                 }
                                                 listOfleads[secondIndex].setName(readingNewupdateInput);
@@ -518,20 +558,21 @@ public class Themenu {
                                                     SimpleDateFormat getFormat = new SimpleDateFormat("yyyy-MM-dd");
                                                     date = getFormat.parse(readingNewupdateInput);
                                                     if(Integer.parseInt(readingNewupdateInput.split("-")[2]) >31){
-                                                        throw new IllegalArgumentException();
+                                                        throw new IllegalArgumentException("day input is invalid");
                                                     }
                                                     else {
                                                         if (Integer.parseInt(readingNewupdateInput.split("-")[1]) > 12){
-                                                            throw new IllegalArgumentException();
+                                                            throw new IllegalArgumentException("month input is invalid");
                                                         }
                                                         else {
                                                             if(date.compareTo(new Date()) >0){
-                                                                throw new IllegalArgumentException();
+                                                                throw new IllegalArgumentException("birthdate input is invalid");
                                                             }
                                                         }
                                                     }
                                                 }
                                                 catch (Exception exception){
+                                                    System.out.print(exception.getMessage());
                                                     continue;
                                                 }
                                                 listOfleads[secondIndex].setBirthdate(date);
@@ -550,6 +591,7 @@ public class Themenu {
                                                     listOfleads[secondIndex].setGender(readingNewupdateInput);
                                                 }
                                                 catch (IllegalArgumentException illegalArgumentexception){
+                                                    System.out.print(illegalArgumentexception.getMessage());
                                                     continue;
                                                 }
 
@@ -566,10 +608,11 @@ public class Themenu {
                                                     Pattern patternOfphone = Pattern.compile("[0-9 ]+");
                                                     Matcher phoneMatcher = patternOfphone.matcher(readingNewupdateInput);
                                                     if (!phoneMatcher.matches()){
-                                                        throw new IllegalArgumentException();
+                                                        throw new IllegalArgumentException("phone input is invalid");
                                                     }
                                                 }
                                                 catch (IllegalArgumentException illegalArgumentexception){
+                                                    System.out.print(illegalArgumentexception.getMessage());
                                                     continue;
                                                 }
                                                 listOfleads[secondIndex].setPhone(readingNewupdateInput);
@@ -586,10 +629,11 @@ public class Themenu {
                                                     if (!emailMatcher.matches()){
 
 
-                                                        throw new IllegalArgumentException();
+                                                        throw new IllegalArgumentException("email input is invalid");
                                                     }
                                                 }
                                                 catch (IllegalArgumentException illegalArgumentexception){
+                                                    System.out.print(illegalArgumentexception.getMessage());
                                                     continue;
                                                 }
                                                 listOfleads[secondIndex].setEmail(readingNewupdateInput);
@@ -607,10 +651,11 @@ public class Themenu {
                                                     Matcher addressMatcher = patternOfaddress.matcher(readingNewupdateInput);
                                                     if(!addressMatcher.matches()){
 
-                                                        throw new IllegalArgumentException();
+                                                        throw new IllegalArgumentException("address input is invalid");
                                                     }
                                                 }
                                                 catch (IllegalArgumentException illegalArgumentexception){
+                                                    System.out.print(illegalArgumentexception.getMessage());
                                                     continue;
                                                 }
                                                 listOfleads[secondIndex].setAddress(readingNewupdateInput);
@@ -619,6 +664,7 @@ public class Themenu {
                                         }
 
                                         else {
+                                            System.out.print("section input is not in the system");
                                             continue;
                                         }
 
@@ -628,8 +674,14 @@ public class Themenu {
                                     }
 
                                     try {
+                                        boolean isThefirstLine = false;
                                         FileWriter fileWriter = new FileWriter("lead.csv");
                                         for (Lead lead: listOfleads){
+                                            if (!isThefirstLine) {
+                                                fileWriter.write(leadTitle);
+                                                fileWriter.write('\n');
+                                                isThefirstLine = true;
+                                            }
                                             Calendar calendar = Calendar.getInstance();
                                             calendar.setTime(lead.getBirthdate());
                                             fileWriter.write(lead.getCodeString());
@@ -661,6 +713,10 @@ public class Themenu {
                             System.out.print("codeString is not in the file or has not added");
                             }
                         }
+                        else {
+                            System.out.print("the list needs to be filled");
+                            continue;
+                        }
                     }
 
 
@@ -687,7 +743,8 @@ public class Themenu {
                     while (true){
 
 
-
+                        String leadTitle = "stringCode,name,birthdate,gender,phone,email,address";
+                        String interactionTitle = "codeString,date,stringCodeofLead,mean,status";
                         int lengthOfarray1 = 0;
                         boolean isThereaList1 = false;
                         try{
@@ -696,35 +753,43 @@ public class Themenu {
                                 String eachLine = fileReading.nextLine();
                                 lengthOfarray1 = lengthOfarray1 + 1;
                             }
-                            if(lengthOfarray1>0){
+                            if(lengthOfarray1>1){
                                 isThereaList1 = true;
                             }
                             fileReading.close();
 
                         }
                         catch (FileNotFoundException fileNotfoundException){
-
+                            lengthOfarray1 = lengthOfarray1 + 1;
                         }
-                        Lead[] listOfleads = new Lead[lengthOfarray1];
+                        Lead[] listOfleads = new Lead[lengthOfarray1 - 1];
                         int index1 = 0;
 
                         try{
                             Scanner fileReading = new Scanner(new File("lead.csv"));
                             while (fileReading.hasNext()){
                                 String eachLine = fileReading.nextLine();
-                                String[] theArray = eachLine.split(",");
-                                SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy-MM-dd");
-                                Date date = simpleDateformat.parse(theArray[2]);
-                                if (theArray[3].equals("true")){
-                                    Lead lead = new Lead(theArray[0],theArray[1],date,true,theArray[4],theArray[5],theArray[6]);
-                                    listOfleads[index1] = lead;
+                                if(eachLine.equals(leadTitle)){
+
                                 }
                                 else {
-                                    Lead lead = new Lead(theArray[0],theArray[1],date,false,theArray[4],theArray[5],theArray[6]);
-                                    listOfleads[index1] = lead;
+
+                                    String[] theArray = eachLine.split(",");
+                                    SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = simpleDateformat.parse(theArray[2]);
+                                    if (theArray[3].equals("true")){
+                                        Lead lead = new Lead(theArray[0],theArray[1],date,true,theArray[4],theArray[5],theArray[6]);
+                                        listOfleads[index1] = lead;
+                                    }
+                                    else {
+                                        Lead lead = new Lead(theArray[0],theArray[1],date,false,theArray[4],theArray[5],theArray[6]);
+                                        listOfleads[index1] = lead;
+                                    }
+
+                                    index1 += 1;
+
                                 }
 
-                                index1 += 1;
                             }
                             fileReading.close();
 
@@ -747,33 +812,42 @@ public class Themenu {
                                 String eachLine = fileReading.nextLine();
                                 lengthOfarray = lengthOfarray + 1;
                             }
-                            if(lengthOfarray>0){
+                            if(lengthOfarray>1){
                                 isThereaList = true;
                             }
                             fileReading.close();
 
                         }
                         catch (FileNotFoundException fileNotfoundException){
-
+                            lengthOfarray = lengthOfarray + 1;
                         }
-                        Interaction[] listOfinteraction = new Interaction[lengthOfarray];
+                        Interaction[] listOfinteraction = new Interaction[lengthOfarray - 1];
                         int index = 0;
 
                         try{
                             Scanner fileReading = new Scanner(new File("interaction.csv"));
                             while (fileReading.hasNext()){
                                 String eachLine = fileReading.nextLine();
-                                String[] theArray = eachLine.split(",");
-                                SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy-MM-dd");
-                                Date date = simpleDateformat.parse(theArray[1]);
-                                for (Lead lead: listOfleads){
-                                    if (lead.getCodeString().equals(theArray[2])){
-                                        Interaction interaction = new Interaction(theArray[0],date,lead,theArray[3],theArray[4]);
-                                        listOfinteraction[index] = interaction;
+                                if(eachLine.equals(interactionTitle)){
+
+                                }
+                                else{
+
+                                    String[] theArray = eachLine.split(",");
+                                    SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = simpleDateformat.parse(theArray[1]);
+                                    for (Lead lead: listOfleads){
+                                        if (lead.getCodeString().equals(theArray[2])){
+                                            Interaction interaction = new Interaction(theArray[0],date,lead,theArray[3],theArray[4]);
+                                            listOfinteraction[index] = interaction;
+                                        }
                                     }
+
+                                    index += 1;
+
                                 }
 
-                                index += 1;
+
                             }
                             fileReading.close();
                         }catch (Exception exception){
@@ -783,6 +857,7 @@ public class Themenu {
 
 
                         Scanner functionInput = new Scanner(System.in);
+                        System.out.print('\n');
                         System.out.print("Welcome to CRM");
                         System.out.print('\n');
                         System.out.print("What would you like to do?");
@@ -832,7 +907,14 @@ public class Themenu {
                                         Scanner fileReading = new Scanner(new File("interaction.csv"));
                                         while (fileReading.hasNext()){
                                             String eachLine = fileReading.nextLine();
-                                            codeInteger = Integer.parseInt(eachLine.split(",")[0].split("_")[1]);
+                                            if(eachLine.equals(interactionTitle)){
+
+                                            }
+                                            else {
+                                                codeInteger = Integer.parseInt(eachLine.split(",")[0].split("_")[1]);
+
+                                            }
+
                                         }
 
                                         fileReading.close();
@@ -848,6 +930,11 @@ public class Themenu {
 
                                     codeString = codeString + codeInteger;
 
+
+
+                                    System.out.print('\n');
+                                    System.out.print('\n');
+
                                     System.out.print("codeString is " + " " + codeString);
 
 
@@ -860,15 +947,15 @@ public class Themenu {
                                     SimpleDateFormat getFormat = new SimpleDateFormat("yyyy-MM-dd");
                                     Date date = getFormat.parse(interactionDate);
                                     if(Integer.parseInt(interactionDate.split("-")[2]) >31){
-                                        throw new IllegalArgumentException();
+                                        throw new IllegalArgumentException("date input is invalid");
                                     }
                                     else {
                                         if (Integer.parseInt(interactionDate.split("-")[1]) > 12){
-                                            throw new IllegalArgumentException();
+                                            throw new IllegalArgumentException("month input is invalid");
                                         }
                                         else {
                                             if(date.compareTo(new Date()) >0){
-                                                throw new IllegalArgumentException();
+                                                throw new IllegalArgumentException("interactionDate input is invalid");
                                             }
                                         }
                                     }
@@ -884,17 +971,24 @@ public class Themenu {
 
                                         while (fileReading.hasNext()){
                                             String eachLine = fileReading.nextLine();
-                                            if (eachLine.split(",")[0].equals(interactionLead)){
-                                                isStringcodeOfleadNotadded = false;
-                                                break;
+                                            if(eachLine.equals(leadTitle)){
+
                                             }
-                                            else {
-                                                isStringcodeOfleadNotadded = true;
+                                            else{
+                                                if (eachLine.split(",")[0].equals(interactionLead)){
+                                                    isStringcodeOfleadNotadded = false;
+                                                    break;
+                                                }
+                                                else {
+                                                    isStringcodeOfleadNotadded = true;
+                                                }
+
                                             }
+
                                         }
                                         fileReading.close();
                                         if (isStringcodeOfleadNotadded){
-                                            throw new IllegalArgumentException();
+                                            throw new IllegalArgumentException("stringCodeofLead input is invalid");
                                         }
 
 
@@ -909,7 +1003,7 @@ public class Themenu {
                                     String interactionMean = input.nextLine();
                                     String interactionMeansanitized = interactionMean.trim().toLowerCase();
                                     if(!(interactionMeansanitized.equals("ftf")||interactionMeansanitized.equals("facetoface")||interactionMeansanitized.equals("face-to-face")||interactionMeansanitized.equals("message")||interactionMeansanitized.equals("socialmedia")||interactionMeansanitized.equals("facebook"))){
-                                        throw new IllegalArgumentException();
+                                        throw new IllegalArgumentException("interactionMean input is invalid");
                                     }
 
 
@@ -923,7 +1017,7 @@ public class Themenu {
 
                                     }
                                     else {
-                                        throw new IllegalArgumentException();
+                                        throw new IllegalArgumentException("interactionStatus input is invalid");
                                     }
 
                                     for (Lead lead: listOfleads){
@@ -937,6 +1031,7 @@ public class Themenu {
 
                                 }
                                 catch (Exception exception){
+                                    System.out.print(exception.getMessage());
                                     continue;
                                 }
                                 System.out.print("Successful");
@@ -959,6 +1054,7 @@ public class Themenu {
                                     }
                                     if (isCodestringAdded){
                                         try {
+                                            boolean isThefirstLine = false;
                                             FileWriter fileWriter = new FileWriter("interaction.csv");
                                             for (Interaction interaction: listOfinteraction){
                                                 Calendar calendar = Calendar.getInstance();
@@ -967,6 +1063,11 @@ public class Themenu {
 
                                                 }
                                                 else {
+                                                    if (!isThefirstLine) {
+                                                        fileWriter.write(interactionTitle);
+                                                        fileWriter.write('\n');
+                                                        isThefirstLine = true;
+                                                    }
                                                     fileWriter.write(interaction.getStringCode());
                                                     fileWriter.write(',');
                                                     fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
@@ -991,6 +1092,10 @@ public class Themenu {
                                     }
                                     System.out.print("codeString is not in the file or has not added");
                                 }
+                            }
+                            else {
+                                System.out.print("the list needs to be filled");
+                                continue;
                             }
                         }
                         else if (readingInputsanitized.equals("update")){
@@ -1033,20 +1138,21 @@ public class Themenu {
                                                         SimpleDateFormat getFormat = new SimpleDateFormat("yyyy-MM-dd");
                                                         date = getFormat.parse(readingNewupdateInput);
                                                         if(Integer.parseInt(readingNewupdateInput.split("-")[2]) >31){
-                                                            throw new IllegalArgumentException();
+                                                            throw new IllegalArgumentException("day input is invalid");
                                                         }
                                                         else {
                                                             if (Integer.parseInt(readingNewupdateInput.split("-")[1]) > 12){
-                                                                throw new IllegalArgumentException();
+                                                                throw new IllegalArgumentException("month input is invalid");
                                                             }
                                                             else {
                                                                 if(date.compareTo(new Date()) >0){
-                                                                    throw new IllegalArgumentException();
+                                                                    throw new IllegalArgumentException("interactionDate input is invalid");
                                                                 }
                                                             }
                                                         }
                                                     }
                                                     catch (Exception exception){
+                                                        System.out.print(exception.getMessage());
                                                         continue;
                                                     }
 
@@ -1069,17 +1175,24 @@ public class Themenu {
 
                                                             while (fileReading.hasNext()){
                                                                 String eachLine = fileReading.nextLine();
-                                                                if (eachLine.split(",")[0].equals(readingNewupdateInput)){
-                                                                    isStringcodeOfleadNotadded = false;
-                                                                    break;
+                                                                if (eachLine.equals(leadTitle)) {
+
                                                                 }
                                                                 else {
-                                                                    isStringcodeOfleadNotadded = true;
+                                                                    if (eachLine.split(",")[0].equals(readingNewupdateInput)){
+                                                                        isStringcodeOfleadNotadded = false;
+                                                                        break;
+                                                                    }
+                                                                    else {
+                                                                        isStringcodeOfleadNotadded = true;
+                                                                    }
+
                                                                 }
+
                                                             }
                                                             fileReading.close();
                                                             if (isStringcodeOfleadNotadded){
-                                                                throw new IllegalArgumentException();
+                                                                throw new IllegalArgumentException("stringCode input is invalid");
                                                             }
 
 
@@ -1090,6 +1203,7 @@ public class Themenu {
 
                                                     }
                                                     catch (IllegalArgumentException illegalArgumentexception){
+                                                        System.out.print(illegalArgumentexception.getMessage());
                                                         continue;
                                                     }
                                                     for (Lead lead: listOfleads){
@@ -1109,10 +1223,11 @@ public class Themenu {
                                                     String readingNewupdateInputsanitized = readingNewupdateInput.toLowerCase().trim();
                                                     try {
                                                         if(!(readingNewupdateInputsanitized.equals("ftf")||readingNewupdateInputsanitized.equals("facetoface")||readingNewupdateInputsanitized.equals("face-to-face")||readingNewupdateInputsanitized.equals("message")||readingNewupdateInputsanitized.equals("socialmedia")||readingNewupdateInputsanitized.equals("facebook"))){
-                                                            throw new IllegalArgumentException();
+                                                            throw new IllegalArgumentException("interactionMean input is invalid");
                                                         }
                                                     }
                                                     catch (IllegalArgumentException illegalArgumentexception){
+                                                        System.out.print(illegalArgumentexception.getMessage());
                                                         continue;
                                                     }
                                                     listOfinteraction[secondIndex].setMean(readingNewupdateInput);
@@ -1127,10 +1242,11 @@ public class Themenu {
                                                     String readingNewupdateInputsanitized = readingNewupdateInput.toLowerCase().trim();
                                                     try {
                                                         if(!(readingNewupdateInputsanitized.equals("neutral")||readingNewupdateInputsanitized.equals("negative")||readingNewupdateInputsanitized.equals("positive"))){
-                                                            throw new IllegalArgumentException();
+                                                            throw new IllegalArgumentException("interactionStatus input is invalid");
                                                         }
                                                     }
                                                     catch (IllegalArgumentException illegalArgumentexception){
+                                                        System.out.print(illegalArgumentexception.getMessage());
                                                         continue;
                                                     }
                                                     listOfinteraction[secondIndex].setStatus(readingNewupdateInput);
@@ -1147,8 +1263,14 @@ public class Themenu {
                                         }
 
                                         try {
+                                            boolean isThefirstLine = false;
                                             FileWriter fileWriter = new FileWriter("interaction.csv");
                                             for (Interaction interaction: listOfinteraction){
+                                                if(!isThefirstLine){
+                                                    fileWriter.write(interactionTitle);
+                                                    fileWriter.write('\n');
+                                                    isThefirstLine = true;
+                                                }
                                                 Calendar calendar = Calendar.getInstance();
                                                 calendar.setTime(interaction.getDate());
                                                 fileWriter.write(interaction.getStringCode());
@@ -1176,6 +1298,10 @@ public class Themenu {
                                     System.out.print("codeString is not in the file or has not added");
                                 }
                             }
+                            else {
+                                System.out.print("the list needs to be filled");
+                                continue;
+                            }
                         }
 
 
@@ -1197,11 +1323,18 @@ public class Themenu {
 
 
                 }
+                else {
+                    System.out.print("the lead list needs to be filled");
+                    continue;
+                }
             }
 
             else if(readingFunctioninput1Sanitized.equals("report")){
                 if(isLeadinformationAdded){
                     while(true){
+
+                        String leadTitle = "stringCode,name,birthdate,gender,phone,email,address";
+                        String interactionTitle = "codeString,date,stringCodeofLead,mean,status";
                         boolean isInteractioninformationAdded = false;
                         int countLines = 0;
                         try {
@@ -1211,7 +1344,7 @@ public class Themenu {
                                 countLines += 1;
                             }
                             fileReading.close();
-                            if(countLines>0){
+                            if(countLines>1){
                                 isInteractioninformationAdded = true;
                             }
 
@@ -1244,20 +1377,28 @@ public class Themenu {
                                 Scanner fileReading = new Scanner(new File("lead.csv"));
                                 while(fileReading.hasNext()){
                                     String eachLine = fileReading.nextLine();
-                                    String dob = eachLine.split(",")[2];
-                                    SimpleDateFormat getFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date date = getFormat.parse(dob);
-                                    long age = (currentSeconds-(date.getTime()/1000))/(24*60*60*365);
-                                    if(age>=0 && age<10){
-                                        count0_10 +=1;
-                                    }else if(age>=10 && age <20){
-                                        count10_20+=1;
-                                    }else if(age>=20 && age <60){
-                                        count20_60+=1;
-                                    }else{
-                                        count60+=1;
+                                    if(eachLine.equals(leadTitle)){
+
                                     }
+                                    else {
+                                        String dob = eachLine.split(",")[2];
+                                        SimpleDateFormat getFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                        Date date = getFormat.parse(dob);
+                                        long age = (currentSeconds-(date.getTime()/1000))/(24*60*60*365);
+                                        if(age>=0 && age<10){
+                                            count0_10 +=1;
+                                        }else if(age>=10 && age <20){
+                                            count10_20+=1;
+                                        }else if(age>=20 && age <60){
+                                            count20_60+=1;
+                                        }else{
+                                            count60+=1;
+                                        }
+
+                                    }
+
                                 }
+                                fileReading.close();
                                 System.out.printf("%20s","0-10  (years old)");
                                 System.out.printf("%20s","10-20  (years old)");
                                 System.out.printf("%20s","20-60  (years old)");
@@ -1278,6 +1419,8 @@ public class Themenu {
                                     long countPositive = 0;
                                     long countNeutral = 0;
                                     long countNegative = 0;
+                                    String[] theArrayofMonthtranslation = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
 
                                     try{
                                         Scanner fileReading = new Scanner(new File("interaction.csv"));
@@ -1298,7 +1441,7 @@ public class Themenu {
                                             startDate = getFormat.parse(readingStartdateInput);
                                         }
                                         else {
-                                            throw new Exception();
+                                            throw new Exception("startDate input is invalid");
                                         }
 
                                         Scanner endDateinput = new Scanner(System.in);
@@ -1318,24 +1461,31 @@ public class Themenu {
                                             endDate = getFormat.parse(readingEnddateInput);
                                         }
                                         else {
-                                            throw new Exception();
+                                            throw new Exception("endDate input is invalid");
                                         }
 
                                         if(startDate.compareTo(endDate)<=0){
                                             while (fileReading.hasNext()){
                                                 String eachLine = fileReading.nextLine();
-                                                SimpleDateFormat getFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                                Date DateOfInteraction = getFormat.parse(eachLine.split(",")[1]);
-                                                String potential = eachLine.split(",")[4];
-                                                if(DateOfInteraction.compareTo(startDate) >=0 && DateOfInteraction.compareTo(endDate)<=0){
-                                                    if(potential.equals("neutral")){
-                                                        countNeutral +=1;
-                                                    }else if(potential.equals("negative")){
-                                                        countNegative+=1;
-                                                    }else{
-                                                        countPositive +=1;
-                                                    }
+                                                if (eachLine.equals(interactionTitle)) {
+
                                                 }
+                                                else {
+                                                    SimpleDateFormat getFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                                    Date DateOfInteraction = getFormat.parse(eachLine.split(",")[1]);
+                                                    String potential = eachLine.split(",")[4];
+                                                    if(DateOfInteraction.compareTo(startDate) >=0 && DateOfInteraction.compareTo(endDate)<=0){
+                                                        if(potential.equals("neutral")){
+                                                            countNeutral +=1;
+                                                        }else if(potential.equals("negative")){
+                                                            countNegative+=1;
+                                                        }else{
+                                                            countPositive +=1;
+                                                        }
+                                                    }
+
+                                                }
+
                                             }
                                             fileReading.close();
                                         }
@@ -1343,6 +1493,14 @@ public class Themenu {
                                             fileReading.close();
                                             throw new Exception();
                                         }
+                                        Calendar calendarStartdate = Calendar.getInstance();
+                                        calendarStartdate.setTime(startDate);
+
+                                        Calendar calendarEnddate = Calendar.getInstance();
+                                        calendarEnddate.setTime(endDate);
+
+                                        System.out.print("input" + " " + ":" + " " + theArrayofMonthtranslation[calendarStartdate.get(Calendar.MONTH)] + " " + calendarStartdate.get(Calendar.YEAR) + " " + "-" + " " + theArrayofMonthtranslation[calendarEnddate.get(Calendar.MONTH)] + " " + calendarEnddate.get(Calendar.YEAR));
+                                        System.out.print('\n');
                                         System.out.printf("%20s","Positive");
                                         System.out.printf("%20s","Neutral");
                                         System.out.printf("%20s%n","Negative");
@@ -1353,6 +1511,7 @@ public class Themenu {
 
                                     }
                                     catch (Exception exception){
+                                        System.out.print(exception.getMessage());
                                         continue;
                                     }
                                     break;
@@ -1362,12 +1521,17 @@ public class Themenu {
 
                                 }
                             }
+                            else {
+                                System.out.print("the interaction list needs to be added");
+                                continue;
+                            }
                         }
 
                         else if(readingFunctioninputSanitized.equals("view interaction")){
                             if(isInteractioninformationAdded){
 
                                 while (true){
+                                    String[] theArrayofMonthtranslation = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
                                     try{
                                         Scanner fileReading = new Scanner(new File("interaction.csv"));
@@ -1388,7 +1552,7 @@ public class Themenu {
                                             startDate = getFormat.parse(readingStartdateInput);
                                         }
                                         else {
-                                            throw new Exception();
+                                            throw new Exception("startDate input is invalid");
                                         }
 
                                         Scanner endDateinput = new Scanner(System.in);
@@ -1410,7 +1574,7 @@ public class Themenu {
                                             endDate = getFormat.parse(readingEnddateInput);
                                         }
                                         else {
-                                            throw new Exception();
+                                            throw new Exception("endDate input is invalid");
                                         }
 
 
@@ -1420,13 +1584,21 @@ public class Themenu {
                                             long countForcheck = 0;
                                             while(fileReading.hasNext()){
                                                 String eachLine = fileReading.nextLine();
-                                                String dateOfInteractionString = eachLine.split(",")[1];
-                                                SimpleDateFormat getFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                                Date dateOfInteraction = getFormat.parse(dateOfInteractionString);
-                                                if(dateOfInteraction.compareTo(startDate)>=0 && dateOfInteraction.compareTo(endDate)<=0){
-                                                    storedString = storedString + dateOfInteractionString +",";
-                                                    countForcheck += 1;
+                                                if(eachLine.equals(interactionTitle)){
+
                                                 }
+                                                else {
+
+                                                    String dateOfInteractionString = eachLine.split(",")[1];
+                                                    SimpleDateFormat getFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                                    Date dateOfInteraction = getFormat.parse(dateOfInteractionString);
+                                                    if(dateOfInteraction.compareTo(startDate)>=0 && dateOfInteraction.compareTo(endDate)<=0){
+                                                        storedString = storedString + dateOfInteractionString +",";
+                                                        countForcheck += 1;
+                                                    }
+
+                                                }
+
                                             }
                                             if(!(countForcheck > 0)){
                                                 break;
@@ -1479,6 +1651,18 @@ public class Themenu {
                                                 }
                                                 countInteractions[i] = count;
                                             }
+
+                                            Calendar calendarStartdate = Calendar.getInstance();
+                                            calendarStartdate.setTime(startDate);
+
+                                            Calendar calendarEnddate = Calendar.getInstance();
+                                            calendarEnddate.setTime(endDate);
+
+                                            System.out.print("input" + " " + ":" + " " + theArrayofMonthtranslation[calendarStartdate.get(Calendar.MONTH)] + " " + calendarStartdate.get(Calendar.YEAR) + " " + "-" + " " + theArrayofMonthtranslation[calendarEnddate.get(Calendar.MONTH)] + " " + calendarEnddate.get(Calendar.YEAR));
+
+
+                                            System.out.print('\n');
+
 //
 //            System.out.println(titles[0] + counts[0]);
 //            System.out.println(titles[1]+ counts[1]);
@@ -1504,6 +1688,7 @@ public class Themenu {
 
                                     }
                                     catch (Exception exception){
+                                        System.out.print(exception.getMessage());
                                         continue;
                                     }
                                     break;
@@ -1513,6 +1698,10 @@ public class Themenu {
 
                                 }
 
+                            }
+                            else {
+                                System.out.print("the interaction list needs to be added");
+                                continue;
                             }
 
 
@@ -1530,6 +1719,10 @@ public class Themenu {
 
 
                     }
+                }
+                else{
+                    System.out.print("the lead list needs to be filled");
+                    continue;
                 }
             }
 
