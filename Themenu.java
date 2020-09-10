@@ -332,7 +332,7 @@ public class Themenu {
 
                                 System.out.print("input your address" + " ");
                                 String leadAddress = input.nextLine();
-                                Pattern patternOfAddress = Pattern.compile("[a-zA-Z0-9 ]*");
+                                Pattern patternOfAddress = Pattern.compile("[a-zA-Z0-9/ ]*");
                                 Matcher addressMatcher = patternOfAddress.matcher(leadAddress);
                                 if (!addressMatcher.matches()){
 
@@ -403,8 +403,9 @@ public class Themenu {
                                 }
                                 if (isCodestringAdded){
                                     try {
-                                        boolean isThefirstLine = false;
                                         FileWriter fileWriter = new FileWriter("lead.csv");
+                                        fileWriter.write(leadTitle);
+                                        fileWriter.write('\n');
                                         for (Lead lead: listOfleads){
                                             Calendar calendar = Calendar.getInstance();
                                             calendar.setTime(lead.getBirthdate());
@@ -412,11 +413,6 @@ public class Themenu {
 
                                             }
                                             else {
-                                                if (!isThefirstLine){
-                                                    fileWriter.write(leadTitle);
-                                                    fileWriter.write('\n');
-                                                    isThefirstLine = true;
-                                                }
                                                 fileWriter.write(lead.getCodeString());
                                                 fileWriter.write(',');
                                                 fileWriter.write(lead.getName());
@@ -444,8 +440,9 @@ public class Themenu {
 
                                     if(isThereaList1){
                                         try {
-                                            boolean isThefirstLine = false;
                                             FileWriter fileWriter = new FileWriter("interaction.csv");
+                                            fileWriter.write(interactionTitle);
+                                            fileWriter.write('\n');
                                             for (Interaction interaction: listOfinteraction){
                                                 Calendar calendar = Calendar.getInstance();
                                                 calendar.setTime(interaction.getDate());
@@ -453,11 +450,6 @@ public class Themenu {
 
                                                 }
                                                 else {
-                                                    if(!isThefirstLine){
-                                                        fileWriter.write(interactionTitle);
-                                                        fileWriter.write('\n');
-                                                        isThefirstLine = true;
-                                                    }
                                                     fileWriter.write(interaction.getStringCode());
                                                     fileWriter.write(',');
                                                     fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
@@ -674,14 +666,10 @@ public class Themenu {
                                     }
 
                                     try {
-                                        boolean isThefirstLine = false;
                                         FileWriter fileWriter = new FileWriter("lead.csv");
+                                        fileWriter.write(leadTitle);
+                                        fileWriter.write('\n');
                                         for (Lead lead: listOfleads){
-                                            if (!isThefirstLine) {
-                                                fileWriter.write(leadTitle);
-                                                fileWriter.write('\n');
-                                                isThefirstLine = true;
-                                            }
                                             Calendar calendar = Calendar.getInstance();
                                             calendar.setTime(lead.getBirthdate());
                                             fileWriter.write(lead.getCodeString());
@@ -710,7 +698,7 @@ public class Themenu {
                                 }
 
 
-                            System.out.print("codeString is not in the file or has not added");
+                                System.out.print("codeString is not in the file or has not added");
                             }
                         }
                         else {
@@ -1054,8 +1042,9 @@ public class Themenu {
                                     }
                                     if (isCodestringAdded){
                                         try {
-                                            boolean isThefirstLine = false;
                                             FileWriter fileWriter = new FileWriter("interaction.csv");
+                                            fileWriter.write(interactionTitle);
+                                            fileWriter.write('\n');
                                             for (Interaction interaction: listOfinteraction){
                                                 Calendar calendar = Calendar.getInstance();
                                                 calendar.setTime(interaction.getDate());
@@ -1063,11 +1052,6 @@ public class Themenu {
 
                                                 }
                                                 else {
-                                                    if (!isThefirstLine) {
-                                                        fileWriter.write(interactionTitle);
-                                                        fileWriter.write('\n');
-                                                        isThefirstLine = true;
-                                                    }
                                                     fileWriter.write(interaction.getStringCode());
                                                     fileWriter.write(',');
                                                     fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
@@ -1263,14 +1247,10 @@ public class Themenu {
                                         }
 
                                         try {
-                                            boolean isThefirstLine = false;
                                             FileWriter fileWriter = new FileWriter("interaction.csv");
+                                            fileWriter.write(interactionTitle);
+                                            fileWriter.write('\n');
                                             for (Interaction interaction: listOfinteraction){
-                                                if(!isThefirstLine){
-                                                    fileWriter.write(interactionTitle);
-                                                    fileWriter.write('\n');
-                                                    isThefirstLine = true;
-                                                }
                                                 Calendar calendar = Calendar.getInstance();
                                                 calendar.setTime(interaction.getDate());
                                                 fileWriter.write(interaction.getStringCode());
@@ -1436,10 +1416,6 @@ public class Themenu {
                                             SimpleDateFormat getFormat = new SimpleDateFormat("MM-dd-yyyy");
                                             startDate = getFormat.parse(readingStartdateInput);
                                         }
-                                        else if(Integer.parseInt(readingStartdateInput.split("-")[0])<=31 && Integer.parseInt(readingStartdateInput.split("-")[1])<=12){
-                                            SimpleDateFormat getFormat = new SimpleDateFormat("dd-MM-yyyy");
-                                            startDate = getFormat.parse(readingStartdateInput);
-                                        }
                                         else {
                                             throw new Exception("startDate input is invalid");
                                         }
@@ -1454,10 +1430,6 @@ public class Themenu {
                                         }
                                         else if(Integer.parseInt(readingEnddateInput.split("-")[0])<=12 && Integer.parseInt(readingEnddateInput.split("-")[1])<=31){
                                             SimpleDateFormat getFormat = new SimpleDateFormat("MM-dd-yyyy");
-                                            endDate = getFormat.parse(readingEnddateInput);
-                                        }
-                                        else if(Integer.parseInt(readingEnddateInput.split("-")[0])<=31 && Integer.parseInt(readingEnddateInput.split("-")[1])<=12){
-                                            SimpleDateFormat getFormat = new SimpleDateFormat("dd-MM-yyyy");
                                             endDate = getFormat.parse(readingEnddateInput);
                                         }
                                         else {
@@ -1547,10 +1519,6 @@ public class Themenu {
                                             SimpleDateFormat getFormat = new SimpleDateFormat("MM-dd-yyyy");
                                             startDate = getFormat.parse(readingStartdateInput);
                                         }
-                                        else if(Integer.parseInt(readingStartdateInput.split("-")[0])<=31 && Integer.parseInt(readingStartdateInput.split("-")[1])<=12){
-                                            SimpleDateFormat getFormat = new SimpleDateFormat("dd-MM-yyyy");
-                                            startDate = getFormat.parse(readingStartdateInput);
-                                        }
                                         else {
                                             throw new Exception("startDate input is invalid");
                                         }
@@ -1567,10 +1535,6 @@ public class Themenu {
                                         }
                                         else if(Integer.parseInt(readingEnddateInput.split("-")[0])<=12 && Integer.parseInt(readingEnddateInput.split("-")[1])<=31){
                                             SimpleDateFormat getFormat = new SimpleDateFormat("MM-dd-yyyy");
-                                            endDate = getFormat.parse(readingEnddateInput);
-                                        }
-                                        else if(Integer.parseInt(readingEnddateInput.split("-")[0])<=31 && Integer.parseInt(readingEnddateInput.split("-")[1])<=12){
-                                            SimpleDateFormat getFormat = new SimpleDateFormat("dd-MM-yyyy");
                                             endDate = getFormat.parse(readingEnddateInput);
                                         }
                                         else {
