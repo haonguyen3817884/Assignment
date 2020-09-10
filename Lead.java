@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Lead {
+public class Lead implements InterfaceofLead {
 
     private String codeString;
     private String name;
@@ -28,6 +28,9 @@ public class Lead {
         this.phone = phoneInput;
         this.email = emailInput;
         this.address = addressInput;
+
+    }
+    private Lead(){
 
     }
 
@@ -152,4 +155,112 @@ public class Lead {
             }
         }
     }
+
+
+    @Override
+    public void view(Lead[] leads) {
+        for (Lead lead: leads){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(lead.getBirthdate());
+            System.out.print(lead.getCodeString());
+            System.out.print(',');
+            System.out.print(lead.getName());
+            System.out.print(',');
+            System.out.print(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
+            System.out.print(',');
+            System.out.print(lead.getGender());
+            System.out.print(',');
+            System.out.print(lead.getPhone());
+            System.out.print(',');
+            System.out.print(lead.getEmail());
+            System.out.print(',');
+            System.out.print(lead.getAddress());
+            System.out.print('\n');
+        }
+    }
+    public static void viewLead(Lead[] leads){
+        Lead lead = new Lead();
+        lead.view(leads);
+    }
+
+    @Override
+    public void delete(Lead[] leads, String codeString) {
+        String leadTitle = "stringCode,name,birthdate,gender,phone,email,address";
+        try {
+            FileWriter fileWriter = new FileWriter("lead.csv");
+            fileWriter.write(leadTitle);
+            fileWriter.write('\n');
+            for (Lead lead: leads){
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(lead.getBirthdate());
+                if(lead.getCodeString().equals(codeString)){
+
+                }
+                else {
+                    fileWriter.write(lead.getCodeString());
+                    fileWriter.write(',');
+                    fileWriter.write(lead.getName());
+                    fileWriter.write(',');
+                    fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
+                    fileWriter.write(',');
+                    fileWriter.write(String.valueOf(lead.getGender()));
+                    fileWriter.write(',');
+                    fileWriter.write(lead.getPhone());
+                    fileWriter.write(',');
+                    fileWriter.write(lead.getEmail());
+                    fileWriter.write(',');
+                    fileWriter.write(lead.getAddress());
+                    fileWriter.write('\n');
+                }
+            }
+            fileWriter.close();
+        }
+        catch (Exception exception){
+
+        }
+    }
+
+
+    public static void deleteLead(Lead[] leads, String codeString){
+        Lead lead = new Lead();
+        lead.delete(leads, codeString);
+    }
+
+    @Override
+    public void write(Lead[] leads) {
+        String leadTitle = "stringCode,name,birthdate,gender,phone,email,address";
+        try {
+            FileWriter fileWriter = new FileWriter("lead.csv");
+            fileWriter.write(leadTitle);
+            fileWriter.write('\n');
+            for (Lead lead: leads){
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(lead.getBirthdate());
+                fileWriter.write(lead.getCodeString());
+                fileWriter.write(',');
+                fileWriter.write(lead.getName());
+                fileWriter.write(',');
+                fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
+                fileWriter.write(',');
+                fileWriter.write(String.valueOf(lead.getGender()));
+                fileWriter.write(',');
+                fileWriter.write(lead.getPhone());
+                fileWriter.write(',');
+                fileWriter.write(lead.getEmail());
+                fileWriter.write(',');
+                fileWriter.write(lead.getAddress());
+                fileWriter.write('\n');
+            }
+            fileWriter.close();
+        }
+        catch (IOException ioException){
+
+        }
+    }
+
+    public static void writeLead(Lead[] leads){
+        Lead lead = new Lead();
+        lead.write(leads);
+    }
+
 }

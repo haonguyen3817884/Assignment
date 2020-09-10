@@ -206,24 +206,7 @@ public class Themenu {
                     String readingInputsanitized = readingInput.toLowerCase().trim();
                     if (readingInputsanitized.equals("view")){
                         if (isThereaList){
-                            for (Lead lead: listOfleads){
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.setTime(lead.getBirthdate());
-                                System.out.print(lead.getCodeString());
-                                System.out.print(',');
-                                System.out.print(lead.getName());
-                                System.out.print(',');
-                                System.out.print(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
-                                System.out.print(',');
-                                System.out.print(lead.getGender());
-                                System.out.print(',');
-                                System.out.print(lead.getPhone());
-                                System.out.print(',');
-                                System.out.print(lead.getEmail());
-                                System.out.print(',');
-                                System.out.print(lead.getAddress());
-                                System.out.print('\n');
-                            }
+                            Lead.viewLead(listOfleads);
                         }
                         else {
                             System.out.print("the file is empty or not found");
@@ -402,41 +385,7 @@ public class Themenu {
                                     }
                                 }
                                 if (isCodestringAdded){
-                                    try {
-                                        FileWriter fileWriter = new FileWriter("lead.csv");
-                                        fileWriter.write(leadTitle);
-                                        fileWriter.write('\n');
-                                        for (Lead lead: listOfleads){
-                                            Calendar calendar = Calendar.getInstance();
-                                            calendar.setTime(lead.getBirthdate());
-                                            if(lead.getCodeString().equals(readingCodestringInput)){
-
-                                            }
-                                            else {
-                                                fileWriter.write(lead.getCodeString());
-                                                fileWriter.write(',');
-                                                fileWriter.write(lead.getName());
-                                                fileWriter.write(',');
-                                                fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
-                                                fileWriter.write(',');
-                                                fileWriter.write(String.valueOf(lead.getGender()));
-                                                fileWriter.write(',');
-                                                fileWriter.write(lead.getPhone());
-                                                fileWriter.write(',');
-                                                fileWriter.write(lead.getEmail());
-                                                fileWriter.write(',');
-                                                fileWriter.write(lead.getAddress());
-                                                fileWriter.write('\n');
-                                            }
-                                        }
-                                        fileWriter.close();
-                                    }
-                                    catch (Exception exception){
-
-                                    }
-
-
-
+                                    Lead.deleteLead(listOfleads, readingCodestringInput);
 
                                     if(isThereaList1){
                                         try {
@@ -665,34 +614,7 @@ public class Themenu {
                                         break;
                                     }
 
-                                    try {
-                                        FileWriter fileWriter = new FileWriter("lead.csv");
-                                        fileWriter.write(leadTitle);
-                                        fileWriter.write('\n');
-                                        for (Lead lead: listOfleads){
-                                            Calendar calendar = Calendar.getInstance();
-                                            calendar.setTime(lead.getBirthdate());
-                                            fileWriter.write(lead.getCodeString());
-                                            fileWriter.write(',');
-                                            fileWriter.write(lead.getName());
-                                            fileWriter.write(',');
-                                            fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
-                                            fileWriter.write(',');
-                                            fileWriter.write(String.valueOf(lead.getGender()));
-                                            fileWriter.write(',');
-                                            fileWriter.write(lead.getPhone());
-                                            fileWriter.write(',');
-                                            fileWriter.write(lead.getEmail());
-                                            fileWriter.write(',');
-                                            fileWriter.write(lead.getAddress());
-                                            fileWriter.write('\n');
-                                        }
-                                        fileWriter.close();
-                                    }
-                                    catch (IOException ioException){
-
-                                    }
-
+                                    Lead.writeLead(listOfleads);
 
                                     break;
                                 }
@@ -864,20 +786,7 @@ public class Themenu {
                         String readingInputsanitized = readingInput.toLowerCase().trim();
                         if (readingInputsanitized.equals("view")){
                             if (isThereaList){
-                                for (Interaction interaction: listOfinteraction){
-                                    Calendar calendar = Calendar.getInstance();
-                                    calendar.setTime(interaction.getDate());
-                                    System.out.print(interaction.getStringCode());
-                                    System.out.print(',');
-                                    System.out.print(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
-                                    System.out.print(',');
-                                    System.out.print(interaction.getLead().getCodeString());
-                                    System.out.print(',');
-                                    System.out.print(interaction.getMean());
-                                    System.out.print(',');
-                                    System.out.print(interaction.getStatus());
-                                    System.out.print('\n');
-                                }
+                                Interaction.viewInteraction(listOfinteraction);
                             }
                             else {
                                 System.out.print("the file is empty or not founded");
@@ -1041,34 +950,7 @@ public class Themenu {
                                         }
                                     }
                                     if (isCodestringAdded){
-                                        try {
-                                            FileWriter fileWriter = new FileWriter("interaction.csv");
-                                            fileWriter.write(interactionTitle);
-                                            fileWriter.write('\n');
-                                            for (Interaction interaction: listOfinteraction){
-                                                Calendar calendar = Calendar.getInstance();
-                                                calendar.setTime(interaction.getDate());
-                                                if(interaction.getStringCode().equals(readingCodestringInput)){
-
-                                                }
-                                                else {
-                                                    fileWriter.write(interaction.getStringCode());
-                                                    fileWriter.write(',');
-                                                    fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
-                                                    fileWriter.write(',');
-                                                    fileWriter.write(interaction.getLead().getCodeString());
-                                                    fileWriter.write(',');
-                                                    fileWriter.write(interaction.getMean());
-                                                    fileWriter.write(',');
-                                                    fileWriter.write(interaction.getStatus());
-                                                    fileWriter.write('\n');
-                                                }
-                                            }
-                                            fileWriter.close();
-                                        }
-                                        catch (Exception exception){
-
-                                        }
+                                        Interaction.deleteInteraction(listOfinteraction, readingCodestringInput);
 
                                         System.out.print("Successful");
                                         break;
@@ -1246,29 +1128,7 @@ public class Themenu {
                                             break;
                                         }
 
-                                        try {
-                                            FileWriter fileWriter = new FileWriter("interaction.csv");
-                                            fileWriter.write(interactionTitle);
-                                            fileWriter.write('\n');
-                                            for (Interaction interaction: listOfinteraction){
-                                                Calendar calendar = Calendar.getInstance();
-                                                calendar.setTime(interaction.getDate());
-                                                fileWriter.write(interaction.getStringCode());
-                                                fileWriter.write(',');
-                                                fileWriter.write(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
-                                                fileWriter.write(',');
-                                                fileWriter.write(interaction.getLead().getCodeString());
-                                                fileWriter.write(',');
-                                                fileWriter.write(interaction.getMean());
-                                                fileWriter.write(',');
-                                                fileWriter.write(interaction.getStatus());
-                                                fileWriter.write('\n');
-                                            }
-                                            fileWriter.close();
-                                        }
-                                        catch (IOException ioException){
-
-                                        }
+                                        Interaction.writeInteraction(listOfinteraction);
 
                                         System.out.print("Successful");
                                         break;
